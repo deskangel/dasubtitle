@@ -7,3 +7,4 @@ build/
 *.ass
 .history/
 bin/dasubtitle.exe
+pubspec.lock
