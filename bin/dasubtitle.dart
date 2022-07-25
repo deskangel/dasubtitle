@@ -32,7 +32,7 @@ ArgResults? parseArgs(List<String> arguments) {
     final results = argParser.parse(arguments);
     return results;
   } on FormatException catch (_) {
-    stderr.writeln('dasubtitle -t [+/-]milliseconds input_file -o output_file\n\n${argParser.usage}');
+    stderr.writeln('usage: dasubtitle -t [+/-]milliseconds input_file -o output_file\n\n${argParser.usage}');
   }
   return null;
 }
