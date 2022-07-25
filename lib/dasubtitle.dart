@@ -1,0 +1,44 @@
+import 'dart:io';
+import 'package:dasubtitle/ass_subtitle.dart';
+
+///
+/// `path`: absolute path to the file
+/// `milliseconds`: positive and negative
+///
+void adjustTime(String path, int milliseconds, String outputPath) {
+  print('$path,$milliseconds, $outputPath');
+  if (milliseconds == 0) {
+    return;
+  }
+
+  String? content = loadFile(path);
+  if (content == null) {
+    exitCode = 1;
+    return;
+  }
+
+  AssFormat format = AssFormat();
+  String? result = format.shiftTime(content, milliseconds);
+  if (result == null) {
+    exitCode = 2;
+    return;
+  }
+
+  File file = File(outputPath);
+  file.writeAsStringSync(result);
+}
+
+String? loadFile(String path) {
+  File file = File(path);
+
+  try {
+    final content = file.readAsStringSync();
+    return content;
+  } on FileSystemException catch (e) {
+    if (e.message.contains('utf-8')) {
+      stderr.writeln('The file encoding is not utf-8, please use `iconv` to convert it to utf-8 then try again.');
+    }
+  }
+
+  return null;
+}
