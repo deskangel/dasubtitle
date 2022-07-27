@@ -4,7 +4,7 @@
 // https://opensource.org/licenses/MIT
 
 extension DurationFormat on Duration {
-  String toAssString() {
+  String toAssString({String milliDelimiter = '.'}) {
     var milliseconds = inMilliseconds;
 
     var hours = milliseconds ~/ Duration.millisecondsPerHour;
@@ -23,7 +23,7 @@ extension DurationFormat on Duration {
     var paddedSeconds = seconds < 10 ? '0$seconds' : '$seconds';
 
     var paddedMilliseconds = milliseconds.toString().padLeft(2, '0');
-    return '$hours:$paddedMinutes:$paddedSeconds.$paddedMilliseconds';
+    return '$hours:$paddedMinutes:$paddedSeconds$milliDelimiter$paddedMilliseconds';
   }
 }
 

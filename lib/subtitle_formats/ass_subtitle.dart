@@ -37,4 +37,7 @@ class AssFormat extends BaseSubtitle {
     }
     return result.join('\n');
   }
+
+  @override
+  String get millisecondsDelimiter => '.';
 }

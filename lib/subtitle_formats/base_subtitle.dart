@@ -31,23 +31,26 @@ abstract class BaseSubtitle {
   /// `shift`: in milliseconds
   ///
   String? adjustTime(String time, int shift) {
-    Duration? duration = string2Duration(time);
+    Duration? duration = string2Duration(time.trim());
     if (duration == null) {
       return null;
     }
 
     int milliseconds = duration.inMilliseconds;
     Duration result = Duration(milliseconds: milliseconds + shift);
-    return result.toAssString();
+    return result.toAssString(milliDelimiter: millisecondsDelimiter);
   }
 
+  ///
+  /// `delimiter`: the milliseconds delimiter
+  ///
   Duration? string2Duration(String time) {
     List<String> parts = time.split(':');
     try {
       int hours = int.parse(parts[0]);
       int minutes = int.parse(parts[1]);
 
-      List<String> tails = parts[2].split('.');
+      List<String> tails = parts[2].split(millisecondsDelimiter);
       int seconds = int.parse(tails[0]);
       int milliseconds = int.parse(tails[1]);
 
@@ -58,4 +61,6 @@ abstract class BaseSubtitle {
 
     return null;
   }
+
+  String get millisecondsDelimiter;
 }
