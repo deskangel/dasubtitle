@@ -12,5 +12,5 @@ VERSION=`cat pubspec.yaml | grep version | awk '{print $NF}'`
 sed -Ei '' "s/const VERSION_NUMBER = '[0-9.]+';$/const VERSION_NUMBER = '$VERSION';/g" bin/dasubtitle.dart
 
 # build the app
-# dart compile exe bin/dasubtitle.dart
+dart compile exe bin/dasubtitle.dart
 
