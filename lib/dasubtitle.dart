@@ -1,6 +1,6 @@
 import 'dart:developer' as d;
 import 'dart:io';
-import 'package:dasubtitle/ass_subtitle.dart';
+import 'package:dasubtitle/subtitle_formats/ass_subtitle.dart';
 
 ///
 /// `path`: absolute path to the file
