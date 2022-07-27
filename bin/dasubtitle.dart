@@ -9,6 +9,8 @@ import 'package:dasubtitle/dasubtitle.dart' as dasubtitle;
 import 'package:args/args.dart';
 import 'package:path/path.dart' as p;
 
+const VERSION_NUMBER = '1.0.3';
+
 ///
 /// `exitcode`:
 ///
@@ -21,6 +23,11 @@ void main(List<String> arguments) {
   final args = parseArgs(arguments);
   if (args == null) {
     exitCode = -1;
+    return;
+  }
+
+  if (args['version']) {
+    stdout.writeln('dasubtitle version: $VERSION_NUMBER');
     return;
   }
 
@@ -39,7 +46,6 @@ ArgResults? parseArgs(List<String> arguments) {
     'time',
     abbr: 't',
     help: 'in milliseconds. positive to delay and negative to rush',
-    mandatory: true,
   );
 
   argParser.addOption(
@@ -48,11 +54,24 @@ ArgResults? parseArgs(List<String> arguments) {
     help: 'if no outpath specified, the default one `newsubtitle.ass` will be used.',
   );
 
+  argParser.addFlag(
+    'version',
+    abbr: 'v',
+    help: 'show the version',
+  );
+
   try {
     final results = argParser.parse(arguments);
+
+    if (results['time'] == null && !results['version']) {
+      stderr.writeln('time not specified.\n');
+      stderr.writeln('usage: dasubtitle -t [+/-]milliseconds input_file -o output_file\n\n${argParser.usage}');
+      return null;
+    }
+
     return results;
-  } on FormatException catch (_) {
-    stderr.writeln('Failed to parse the arguments\n');
+  } on FormatException catch (e) {
+    stderr.writeln('Failed to parse the arguments: ${e.message}\n');
 
     stderr.writeln('usage: dasubtitle -t [+/-]milliseconds input_file -o output_file\n\n${argParser.usage}');
   }

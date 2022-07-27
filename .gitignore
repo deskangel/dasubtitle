@@ -9,3 +9,4 @@ build/
 bin/dasubtitle.exe
 pubspec.lock
 *.srt
+.build_number
