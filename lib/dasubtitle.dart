@@ -5,7 +5,8 @@
 
 import 'dart:developer' as d;
 import 'dart:io';
-import 'package:dasubtitle/subtitle_formats/ass_subtitle.dart';
+
+import 'package:dasubtitle/subtitle_formats/base_subtitle.dart';
 
 ///
 /// `path`: absolute path to the file
@@ -24,7 +25,7 @@ void adjustTime(String path, int milliseconds, String outputPath) {
     return;
   }
 
-  AssFormat format = AssFormat();
+  var format = BaseSubtitle.fromExt(path);
   String? result = format.shiftTime(content, milliseconds);
   if (result == null) {
     exitCode = 2;

@@ -5,9 +5,26 @@
 
 import 'dart:io';
 
+import 'package:dasubtitle/subtitle_formats/ass_subtitle.dart';
+import 'package:dasubtitle/subtitle_formats/srt_subtitle.dart';
 import 'package:dasubtitle/utils.dart';
+import 'package:path/path.dart' as p;
 
 abstract class BaseSubtitle {
+  BaseSubtitle();
+
+  factory BaseSubtitle.fromExt(String path) {
+    String ext = p.extension(path);
+    switch (ext.toLowerCase()) {
+      case '.ass':
+        return AssFormat();
+      case '.srt':
+        return SrtFormat();
+      default:
+        throw UnimplementedError();
+    }
+  }
+
   String? shiftTime(String content, int milliseconds);
 
   ///
@@ -41,5 +58,4 @@ abstract class BaseSubtitle {
 
     return null;
   }
-
 }
