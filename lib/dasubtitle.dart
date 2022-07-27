@@ -1,3 +1,8 @@
+// Copyright (c) 2022 ideskangel
+//
+// This software is released under the MIT License.
+// https://opensource.org/licenses/MIT
+
 import 'dart:developer' as d;
 import 'dart:io';
 import 'package:dasubtitle/subtitle_formats/ass_subtitle.dart';
