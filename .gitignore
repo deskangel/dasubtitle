@@ -8,3 +8,4 @@ build/
 .history/
 bin/dasubtitle.exe
 pubspec.lock
+*.srt
