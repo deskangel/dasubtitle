@@ -21,3 +21,4 @@ extension DurationFormat on Duration {
     return '$hours:$paddedMinutes:$paddedSeconds.$paddedMilliseconds';
   }
 }
+

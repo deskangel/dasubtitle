@@ -1,3 +1,4 @@
+import 'dart:developer' as d;
 import 'dart:io';
 import 'package:dasubtitle/ass_subtitle.dart';
 
@@ -6,7 +7,7 @@ import 'package:dasubtitle/ass_subtitle.dart';
 /// `milliseconds`: positive and negative
 ///
 void adjustTime(String path, int milliseconds, String outputPath) {
-  print('$path,$milliseconds, $outputPath');
+  d.log('$path,$milliseconds, $outputPath');
   if (milliseconds == 0) {
     return;
   }
@@ -14,6 +15,7 @@ void adjustTime(String path, int milliseconds, String outputPath) {
   String? content = loadFile(path);
   if (content == null) {
     exitCode = 1;
+    stderr.writeln('Failed to load the file "$path"');
     return;
   }
 

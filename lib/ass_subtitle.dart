@@ -12,11 +12,13 @@ class AssFormat {
 
         String? start = adjustTime(content[1], milliseconds);
         if (start == null) {
+          stderr.writeln('Failed to adjust the start time "${content[1]}"');
           return null;
         }
 
         String? end = adjustTime(content[2], milliseconds);
         if (end == null) {
+          stderr.writeln('Failed to adjust the end time "${content[2]}"');
           return null;
         }
 
