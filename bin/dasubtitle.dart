@@ -20,7 +20,8 @@ const VERSION_NUMBER = '1.0.8';
 ///  *  2, failed to adjust times in the input file
 ///
 void main(List<String> arguments) {
-  final args = parseArgs(arguments);
+  final argParser = ArgParser();
+  final args = parseArgs(argParser, arguments);
   if (args == null) {
     exitCode = -1;
     return;
@@ -28,6 +29,11 @@ void main(List<String> arguments) {
 
   if (args['version']) {
     stdout.writeln('dasubtitle version: $VERSION_NUMBER');
+    return;
+  }
+
+  if (args['help']) {
+    stdout.writeln('usage: dasubtitle -t [+/-]milliseconds input_file -o output_file\n\n${argParser.usage}');
     return;
   }
 
@@ -46,8 +52,7 @@ void main(List<String> arguments) {
   stdout.writeln('The new content was saved into "$outputPath"');
 }
 
-ArgResults? parseArgs(List<String> arguments) {
-  final argParser = ArgParser();
+ArgResults? parseArgs(ArgParser argParser, List<String> arguments) {
   argParser.addOption(
     'time',
     abbr: 't',
@@ -56,12 +61,12 @@ ArgResults? parseArgs(List<String> arguments) {
   argParser.addOption(
     'begin',
     abbr: 'b',
-    help: 'in milliseconds. start position in timeline',
+    help: 'in milliseconds. start position in timeline. the exact time from the timeline is preffered.',
   );
   argParser.addOption(
     'end',
     abbr: 'e',
-    help: 'in milliseconds. end position in timeline',
+    help: 'in milliseconds. end position in timeline. the exact time from the timeline is preffered.',
   );
 
   argParser.addOption(
@@ -74,12 +79,20 @@ ArgResults? parseArgs(List<String> arguments) {
     'version',
     abbr: 'v',
     help: 'show the version',
+    negatable: false,
+  );
+
+  argParser.addFlag(
+    'help',
+    abbr: 'h',
+    help: 'show this help',
+    negatable: false,
   );
 
   try {
     final results = argParser.parse(arguments);
 
-    if (results['time'] == null && !results['version']) {
+    if (results['time'] == null && (!results['version'] && !results['help'])) {
       stderr.writeln('time not specified.\n');
       stderr.writeln('usage: dasubtitle -t [+/-]milliseconds input_file -o output_file\n\n${argParser.usage}');
       return null;
