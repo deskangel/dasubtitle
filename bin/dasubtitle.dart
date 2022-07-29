@@ -9,7 +9,7 @@ import 'package:dasubtitle/dasubtitle.dart' as dasubtitle;
 import 'package:args/args.dart';
 import 'package:path/path.dart' as p;
 
-const VERSION_NUMBER = '1.0.3';
+const VERSION_NUMBER = '1.0.8';
 
 ///
 /// `exitcode`:
