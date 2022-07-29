@@ -9,20 +9,20 @@ import 'package:dasubtitle/subtitle_formats/base_subtitle.dart';
 
 class AssFormat extends BaseSubtitle {
   @override
-  String? shiftTime(String content, int milliseconds) {
+  String? shiftTime(String content, int milliseconds, {int? rangeBegin, int? rangeEnd}) {
     List<String> result = [];
     List<String> lines = content.split('\n');
     for (var line in lines) {
       if (line.startsWith('Dialogue:')) {
         List<String> content = line.split(',');
 
-        String? start = adjustTime(content[1], milliseconds);
+        String? start = adjustTime(content[1], milliseconds, rangeBegin: rangeBegin, rangeEnd: rangeEnd);
         if (start == null) {
           stderr.writeln('Failed to adjust the start time "${content[1]}"');
           return null;
         }
 
-        String? end = adjustTime(content[2], milliseconds);
+        String? end = adjustTime(content[2], milliseconds, rangeBegin: rangeBegin, rangeEnd: rangeEnd);
         if (end == null) {
           stderr.writeln('Failed to adjust the end time "${content[2]}"');
           return null;

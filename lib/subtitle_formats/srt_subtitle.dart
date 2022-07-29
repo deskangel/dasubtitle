@@ -10,7 +10,7 @@ import 'package:dasubtitle/subtitle_formats/base_subtitle.dart';
 
 class SrtFormat extends BaseSubtitle {
   @override
-  String? shiftTime(String content, int milliseconds) {
+  String? shiftTime(String content, int milliseconds, {int? rangeBegin, int? rangeEnd}) {
     List<String> result = [];
 
     LineSplitter ls = LineSplitter();
@@ -19,7 +19,7 @@ class SrtFormat extends BaseSubtitle {
     for (var line in lines) {
       if (line.contains('-->')) {
         List<String> content = line.split('-->');
-        String? start = adjustTime(content[0], milliseconds);
+        String? start = adjustTime(content[0], milliseconds, rangeBegin: rangeBegin, rangeEnd: rangeEnd);
         if (start == null) {
           stderr.writeln('Failed to adjust the start time "${content[0]}", but continue.');
           result.add(line);
@@ -27,7 +27,7 @@ class SrtFormat extends BaseSubtitle {
           continue;
         }
 
-        String? end = adjustTime(content[1], milliseconds);
+        String? end = adjustTime(content[1], milliseconds, rangeBegin: rangeBegin, rangeEnd: rangeEnd);
         if (end == null) {
           stderr.writeln('Failed to adjust the end time "${content[1]}", but continue.');
           result.add(line);

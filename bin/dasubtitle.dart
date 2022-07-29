@@ -35,7 +35,13 @@ void main(List<String> arguments) {
   path = p.absolute(path);
   var outputPath = p.absolute(args['output'] ?? p.absolute('newsubtitle${p.extension(path)}'));
 
-  dasubtitle.adjustTime(path, int.tryParse(args['time']) ?? 0, outputPath);
+  dasubtitle.adjustTime(
+    path,
+    int.tryParse(args['time']) ?? 0,
+    outputPath,
+    rangeBegin: args['begin'],
+    rangeEnd: args['end'],
+  );
 
   stdout.writeln('The new content was saved into "$outputPath"');
 }
@@ -46,6 +52,16 @@ ArgResults? parseArgs(List<String> arguments) {
     'time',
     abbr: 't',
     help: 'in milliseconds. positive to delay and negative to rush',
+  );
+  argParser.addOption(
+    'begin',
+    abbr: 'b',
+    help: 'in milliseconds. start position in timeline',
+  );
+  argParser.addOption(
+    'end',
+    abbr: 'e',
+    help: 'in milliseconds. end position in timeline',
   );
 
   argParser.addOption(

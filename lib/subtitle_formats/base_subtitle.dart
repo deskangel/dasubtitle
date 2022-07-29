@@ -11,6 +11,8 @@ import 'package:dasubtitle/utils.dart';
 import 'package:path/path.dart' as p;
 
 abstract class BaseSubtitle {
+  static const int MAX_END = 0x7fffffff;
+
   BaseSubtitle();
 
   factory BaseSubtitle.fromExt(String path) {
@@ -25,27 +27,48 @@ abstract class BaseSubtitle {
     }
   }
 
-  String? shiftTime(String content, int milliseconds);
+  String? shiftTime(String content, int milliseconds, {int? rangeBegin, int? rangeEnd});
 
   ///
   /// `shift`: in milliseconds
   ///
-  String? adjustTime(String time, int shift) {
+  String? adjustTime(String time, int shift, {int? rangeBegin, int? rangeEnd}) {
+    rangeBegin ??= 0;
+    rangeEnd ??= MAX_END;
+
     Duration? duration = string2Duration(time.trim());
     if (duration == null) {
       return null;
     }
 
     int milliseconds = duration.inMilliseconds;
+
+    if (milliseconds < rangeBegin || milliseconds > rangeEnd) {
+      return time;
+    }
+
     Duration result = Duration(milliseconds: milliseconds + shift);
     return result.toAssString(milliDelimiter: millisecondsDelimiter);
+  }
+
+  int? parse2Milliseconds(String? time) {
+    if (time == null) {
+      return null;
+    }
+
+    Duration? duration = string2Duration(time.trim());
+    if (duration == null) {
+      return null;
+    }
+
+    return duration.inMilliseconds;
   }
 
   ///
   /// `delimiter`: the milliseconds delimiter
   ///
   Duration? string2Duration(String time) {
-    List<String> parts = time.split(':');
+    List<String> parts = time.trim().split(':');
     try {
       int hours = int.parse(parts[0]);
       int minutes = int.parse(parts[1]);
