@@ -36,7 +36,9 @@ abstract class BaseSubtitle {
     rangeBegin ??= 0;
     rangeEnd ??= MAX_END;
 
-    Duration? duration = string2Duration(time.trim());
+    time = time.trim();
+
+    Duration? duration = string2Duration(time);
     if (duration == null) {
       return null;
     }
