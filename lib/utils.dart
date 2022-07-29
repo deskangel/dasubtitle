@@ -19,6 +19,9 @@ extension DurationFormat on Duration {
 
     var seconds = milliseconds ~/ Duration.millisecondsPerSecond;
     milliseconds = milliseconds.remainder(Duration.millisecondsPerSecond);
+    if (milliseconds > 100) {
+      milliseconds ~/= 10;
+    }
 
     var paddedSeconds = seconds < 10 ? '0$seconds' : '$seconds';
 
@@ -26,4 +29,3 @@ extension DurationFormat on Duration {
     return '$hours:$paddedMinutes:$paddedSeconds$milliDelimiter$paddedMilliseconds';
   }
 }
-
