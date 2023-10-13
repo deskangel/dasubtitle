@@ -1,12 +1,23 @@
+// Copyright (c) 2022 ideskangel
+//
+// This software is released under the MIT License.
+// https://opensource.org/licenses/MIT
+
 import 'dart:developer' as d;
 import 'dart:io';
-import 'package:dasubtitle/ass_subtitle.dart';
+
+import 'package:dasubtitle/subtitle_formats/base_subtitle.dart';
 
 ///
 /// `path`: absolute path to the file
+///
 /// `milliseconds`: positive and negative
 ///
-void adjustTime(String path, int milliseconds, String outputPath) {
+/// `rangeBegin`: the **start time** of the rang begin in the timeline, in milliseconds. The exact time from the timeline is preferred.
+///
+/// `rangeEnd`: the **end time** of the range end in the timeline, in milliseconds. The exact end time from the timeline is preferred.
+///
+void adjustTime(String path, int milliseconds, String outputPath, {String? rangeBegin, String? rangeEnd}) {
   d.log('$path,$milliseconds, $outputPath');
   if (milliseconds == 0) {
     return;
@@ -19,8 +30,13 @@ void adjustTime(String path, int milliseconds, String outputPath) {
     return;
   }
 
-  AssFormat format = AssFormat();
-  String? result = format.shiftTime(content, milliseconds);
+  var format = BaseSubtitle.fromExt(path);
+  String? result = format.shiftTime(
+    content,
+    milliseconds,
+    rangeBegin: format.parse2Milliseconds(rangeBegin),
+    rangeEnd: format.parse2Milliseconds(rangeEnd),
+  );
   if (result == null) {
     exitCode = 2;
     return;
