@@ -50,7 +50,7 @@ abstract class BaseSubtitle {
     }
 
     Duration result = Duration(milliseconds: milliseconds + shift);
-    return result.toAssString(milliDelimiter: millisecondsDelimiter);
+    return result.toSubtitleString(milliDelimiter: millisecondsDelimiter);
   }
 
   int? parse2Milliseconds(String? time) {

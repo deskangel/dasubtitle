@@ -4,7 +4,7 @@
 // https://opensource.org/licenses/MIT
 
 extension DurationFormat on Duration {
-  String toAssString({String milliDelimiter = '.'}) {
+  String toSubtitleString({String milliDelimiter = '.'}) {
     var milliseconds = inMilliseconds;
 
     var hours = milliseconds ~/ Duration.millisecondsPerHour;
